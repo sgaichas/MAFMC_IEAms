@@ -11,7 +11,11 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
+
+library(here)
+image.dir <- here::here("images")
+
 ```
 
 Article Type: Management Application
@@ -27,25 +31,26 @@ Resource managers worldwide are being asked to consider the ecosystem while maki
 
 # Introduction 
 
-What is IEA [@levin_integrated_2009, @levin_guidance_2014]? Why is IEA a good framework to implement EAFM? Why haven't we seen more uptake?<!--Add some stuff here-->
+What is IEA [@levin_integrated_2009, @levin_guidance_2014]? Why is IEA a good framework to implement EAFM? Why haven't we seen more uptake?{>> Add some stuff here <<}
 
 Here we review a successful implementation of Integrated Ecosystem Assessment within an operational fishery management system, and highlight key features of this implementation contributing to success. 
 
-Outline <!--to be included in draft only:--> 
-- Who is the Council? 
-- Mid-Atlantic Fishery Management Council Ecosystem Approach (EAFM)
-  - Why did managers decide to invest in an ecosystem approach?  
-  - How did they develop their approach?  open public process, workshops, iterative
-  - Why risk assessment first?  established clear objectives
-- Tailoring ecosystem reporting for fishery managers (pirate SOE paper)
-- Mid-Atlantic EAFM risk assessment (refer to 2018 paper)
-- Mid-Atlantic EAFM conceptual modeling (towards MSE)
-- Discussion 
-  - Overall, the process began with strategic planning, stakeholder-driven visioning, and continues as a collaboration between scientists, managers, and stakeholders. 
-  - Open-source data and technical documentation
+Outline {>>to be included in draft only:<<}  
+
+  - Who is the Council? 
+  - Mid-Atlantic Fishery Management Council Ecosystem Approach (EAFM)
+    - Why did managers decide to invest in an ecosystem approach?  
+    - How did they develop their approach?  open public process, workshops, iterative
+    - Why risk assessment first?  established clear objectives
+  - Tailoring ecosystem reporting for fishery managers (pirate SOE paper)
+  - Mid-Atlantic EAFM risk assessment (refer to 2018 paper)
+  - Mid-Atlantic EAFM conceptual modeling (towards MSE)
+  - Discussion 
+    - Overall, the process began with strategic planning, stakeholder-driven visioning, and continues as a collaboration between scientists, managers, and stakeholders. 
+    - Open-source data and technical documentation
 
 ## Who is the Council? 
-<!--from the EAFM guidance doc, rev 2019-->
+{>> from the EAFM guidance doc, rev 2019 <<}
 The Mid-Atlantic Fishery Management Council (also referred to as the Council, Mid-Atlantic Council, or MAFMC) is responsible for the conservation and management of fish stocks within the federal 200-mile limit of the MidAtlantic region (North Carolina through New York). The Council was established in 1976 by the Fishery Conservation and Management Act (later renamed the Magnuson-Stevens Fishery Conservation and Management Act, or MSA). The law created a 200-mile Exclusive Economic Zone (EEZ), eliminated foreign fishing effort within the EEZ, and charged eight regional councils with management of fishery resources in the newly expanded federal waters. The Council develops fishery management recommendations which must be approved by the secretary of commerce before they become final. All of the Council’s fishery management recommendations must be consistent with the ten national standards as defined by the MSA.
 
 The Council manages more than 64 species with seven fishery management plans (FMPs). Fourteen species are directly managed with specific FMPs. These include summer flounder, scup, black sea bass, Atlantic bluefish, Atlantic mackerel, Illex and longfin squids, butterfish, Atlantic surfclams, ocean quahogs, golden and blueline tilefish, spiny dogfish (joint with the New England Council), and monkfish (joint with the New England Council).
@@ -56,11 +61,11 @@ The Council is composed of 25 members, including citizens from each of the seven
 
 # Mid-Atlantic Fishery Management Council Ecosystem Approach (EAFM)
 
-## Why did managers decide to invest in an ecosystem approach?  
-<!--from the EAFM guidance doc, rev 2019-->  
+## Why did managers decide to invest in an ecosystem approach? 
+{>>from the EAFM guidance doc, rev 2019<<}
 The Council had been considering mechanisms to introduce ecosystem considerations into the fishery management process since the late 1990s (MAFMC 2006). In the fall of 2011, the Council hosted the fourth National Scientific and Statistical Committee Workshop, which was convened to provide an opportunity for the eight regional fishery management councils’ Scientific and Statistical Committees (SSCs) to discuss incorporation of ecosystem considerations in federal fisheries management (Seagraves and Collins 2012). After a review of the various approaches to incorporating ecosystem considerations into fishery management around the U.S., the Council agreed to move forward with development of a transitional approach to introduce ecosystem considerations into Council management actions in a step-wise, evolutionary fashion – herein referred to as an ecosystem approach to fisheries management or EAFM. 
 
-The Council also embarked on a Visioning Project in 2011 to chart a course for the future of marine fisheries management in the Mid-Atlantic based on extensive stakeholder input. <!--add a sentence with methods and numbers of responses for the visioning project --> The survey results noted common themes across all stakeholder groups: 
+The Council also embarked on a Visioning Project in 2011 to chart a course for the future of marine fisheries management in the Mid-Atlantic based on {==extensive stakeholder input.==}{>>add a sentence with methods and numbers of responses for the visioning project<<} The survey results noted common themes across all stakeholder groups: 
 
 >• There is a lack of confidence in the data that drive fishery management decisions.
 >
@@ -81,7 +86,7 @@ The Council also embarked on a Visioning Project in 2011 to chart a course for t
 This effort culminated in the development of the Council's 2014-2018 Strategic Plan (http://www.mafmc.org/strategic-plan), which established an overarching goal of maintaining sustainable fisheries, ecosystems, and habitats in the MidAtlantic through the development of management approaches that minimize adverse ecosystem impacts. The EAFM Guidance Document addresses objective 15 of the strategic plan - Advance ecosystem approaches to fisheries management in the Mid-Atlantic (i.e., through development of EAFM Guidance Document).
 
 ## How did they develop their approach?  
-<!--open public process, workshops, iterative-->  
+{>> open public process, workshops, iterative <<} 
 Based on Council and SSC discussions and stakeholder input from the Council’s Visioning Project, the Council concluded that the EAFM document should focus on the following major ecosystem-related issues: 
 1. Forage/low trophic level species considerations; 
 1. Incorporation of ecosystem-level habitat conservation and management objectives in the current management process; 
@@ -105,9 +110,10 @@ This approach addresses several key elements necessary for the successful implem
 Importantly, the approach allows for the growth and development of EAFM policy at a rate commensurate with the availability of the science necessary to support it. The Council recognizes that stakeholder involvement is imperative to success and that EAFM will require engagement of a broader range of stakeholder interests compared to traditional fisheries management. 
 
 ## Mid-Atlantic Council EAFM process: a modified IEA loop
-<!--refer to 2016 paper-->
+
 ```{r framework, echo = F, out.width = "70%", fig.align = "center", fig.cap="The Mid-Atlantic Fishery Management Council's EAFM process"}
-knitr::include_graphics("images/Framework.png")
+
+knitr::include_graphics(file.path("images/Framework.png"))
 ```
 
 Risk assessment is the initial step in the Council's implementation of an ecosystem approach to fishery management [@gaichas_framework_2016]. Second, a conceptual model is developed identifying key environmental, ecological, social, economic, and management linkages for a high-priority fishery. Third, quantitative modeling addressing Council-specified questions and based on interactions identified in the conceptual model is applied to evaluate alternative management strategies that best balance management objectives. As strategies are implemented, outcomes are monitored and the process is adjusted, and/or another priority identified in risk assessment can be addressed. 
@@ -115,7 +121,7 @@ Risk assessment is the initial step in the Council's implementation of an ecosys
 Risk assessment first in the loop both prioritized issues and established clear objectives for further analysis in the form of risk elements, which were linked with ecosystem indcicators.
 
 # Tailoring ecosystem indicator reporting for fishery managers 
-<!--(pirated from unpublished SOE ms)-->
+{>> pirated from unpublished SOE ms <<}
 Risk assessment relied on the ecosystem indicators and State of the Ecosystem (SOE) reports developed at the NOAA/NMFS Northeast Fisheries Science Center. As the Council's EAFM process developed, ecosystem indicators and  reporting evolved as well to meet management needs. Priorites for ecosystem reporting included clear communication of relevance to management, synthesis of messages across indicators, and efficiency of production, delivery, and use by managers. 
 
 ## Priority: Clear communication of relevance to management
@@ -150,7 +156,7 @@ Final State of the Ecosystem reports were presented to the full Councils at thei
 The MAFMC has integrated State of the Ecosystem report indicators within an ecosystem-level risk assesssment [@gaichas_implementing_2018]. First, the Council identified a range of ecological, social, and management objectives or risk elements. All objectives/risk elements were evaluated with ecosystem indicators using risk assessment criteria developed by the Council. The MAFMC risk assessment was done with managers and stakeholders in the region, further clarifying the list of ecosystem-level management objectives. For example, indicators associated with management performance were developed to assess risks to meeting management objectives [@gaichas_implementing_2018]. For 2019 and beyond, MAFMC has received the SOE report annually with an update to their risk assessment indicators as part of their Ecosystem Approach to Fisheries Management (EAFM). In particular, they requested further development of management-oriented indicators such as other ocean uses and regulatory complexity. 
 
 # Mid-Atlantic EAFM conceptual modeling (towards MSE)
-
+{>> from Brandon's Dec Council briefing <<}
 Utilizing the results of the risk assessment, the Council agreed to pilot the development of a conceptual model that will consider key risk factors affecting summer flounder and its fisheries. Conceptual model development is the second step in the structured framework process and are built to ensure key relationships throughout the system are accounted for and help identify specific management questions to address the highest priority ecosystem factors.
 
 In addition to the development of the pilot conceptual model, potential outcomes requested by the Council included information on data availability and needs, relative importance of risk factors and elements and 10 questions that could be answered using the model and data available. A diverse multi-disciplinary workgroup comprised of NEFSC, NOAA Fisheries, GARFO, SSC, ASMFC, state agencies, and Council members and staff was formed to work on and address the tasks identified by the Council. The workgroup met on five separate occasions throughout 2019 to identify key high risk factors, important ecosystem elements associated with each risk factor, available data sources, and draft management questions relevant to summer flounder and the associated fisheries.  The draft conceptual model and supporting information and documentation
