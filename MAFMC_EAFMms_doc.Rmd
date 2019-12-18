@@ -8,6 +8,7 @@ output:
     highlight_outputs: TRUE
     margins: 1 
     line_numbers: FALSE 
+bibliography: ["SOE.bib", "packages.bib"]
 ---
 
 ```{r setup, include=FALSE}
@@ -16,18 +17,20 @@ knitr::opts_chunk$set(echo = FALSE)
 library(here)
 image.dir <- here::here("images")
 
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+
 ```
 
 Article Type: Management Application
 
-\begin{abstract}
-
-\section{Abstract}
+# Abstract
 Resource managers worldwide are being asked to consider the ecosystem while making management decisions. However, it can be difficult to change management systems accustomed to evaluating a constrained set of objectives, often on a species-by-species basis. Integrated Ecosystem Assessment (IEA) provides a flexible framework for addressing ecosystem considerations in decision making. IEA was adapted to address species, fleet, habitat, and climate interactions by the US Mid-Atlantic Fishery Management Council (Council) as part of their Ecosystem Approach to Fisheries Management (EAFM) in 2016.  The Council’s EAFM framework uses risk assessment as a first step to prioritize combinations of managed species, fleets, and ecosystem interactions for consideration. Second, a conceptual model is developed identifying key environmental, ecological, social, economic, and management linkages for a high-priority fishery. Third, quantitative modeling addressing Council-specified questions and based on interactions identified in the conceptual model is applied to evaluate alternative management strategies that best balance management objectives. As strategies are implemented, outcomes are monitored and the process is adjusted, and/or another priority identified in risk assessment can be addressed. The Council completed an initial EAFM risk assessment in 2017. First, the Council identified a range of ecological, social, and management objectives or risk elements. All objectives/risk elements were evaluated with ecosystem indicators using risk assessment criteria developed by the Council. In 2018, the Council identified summer flounder as a high risk fishery and is now finalizing an EAFM conceptual model. Annual ecosystem reporting updates ecosystem indicators and the risk assessment. The Council’s rapid progress in implementing EAFM resulted from positive collaboration between managers, stakeholders, and scientists. Collaboration is essential to IEA and to the success of EAFM.
 
-\section{Keywords:} ecosystem approach, fisheries, integrated ecosystem assessment, ecosystem indicators, economic indicators, management objectives, risk assessment, conceptual modeling
-
-\end{abstract}
+## Keywords 
+ecosystem approach, fisheries, integrated ecosystem assessment, ecosystem indicators, economic indicators, management objectives, risk assessment, conceptual modeling
 
 # Introduction 
 
@@ -87,7 +90,8 @@ This effort culminated in the development of the Council's 2014-2018 Strategic P
 
 ## How did they develop their approach?  
 {>> open public process, workshops, iterative <<} 
-Based on Council and SSC discussions and stakeholder input from the Council’s Visioning Project, the Council concluded that the EAFM document should focus on the following major ecosystem-related issues: 
+Based on Council and SSC discussions and stakeholder input from the Council’s Visioning Project, the Council concluded that the EAFM document should focus on the following major ecosystem-related issues:  
+
 1. Forage/low trophic level species considerations; 
 1. Incorporation of ecosystem-level habitat conservation and management objectives in the current management process; 
 1. Effects of systematic changes in oceanographic conditions on abundance and distribution of fish stocks and ramifications for existing management approaches/programs; and 
@@ -97,6 +101,7 @@ Social and economic considerations were integrated throughout the analyses of th
 The Council organized a series of four workshops between 2013 and 2015 which brought together scientists, managers, and stakeholders to discuss each of the four topics and associated best management practices. After completion of the workshops, the Council developed white papers which provide detailed information and indepth discussion on each of these topics. Workshop materials, presentations, and white papers are all available at http://www.mafmc.org/eafm/. From there, the Council developed its EAFM Policy Guidance Document, which built upon that foundation for establishing an EAFM in the Mid-Atlantic Region. 
 
 The Council’s definition of EAFM is 
+
 >“An ecosystem approach to fishery management recognizes the biological, economic, social, and physical interactions among the components of ecosystems and attempts to manage fisheries to achieve optimum yield taking those interactions into account.” 
 
 In contrast with Ecosystem Based Fisheries Management (EBFM), which attempts to manage the ecosystem as an entity to account for species/interactions of interest, EAFM attempts to manage species while considering the broader interactions within the ecosystem. 
