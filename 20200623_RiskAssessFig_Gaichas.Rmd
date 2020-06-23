@@ -1,0 +1,216 @@
+---
+title: "Excerpt from Mid-Atlantic Ecosystem Approach"
+subtitle: "Overview and Progress <br /> May 2020"
+author: "Sarah Gaichas, Geret DePiper, Brandon Muffley, Richard Seagraves <br /> Northeast Fisheries Science Center, Mid-Atlantic Fishery Management Council"
+output:
+  xaringan::moon_reader:
+    seal: false
+    css: ["default", "libs/EDAB_theme3_508_SOE.css"]
+    lib_dir: libs
+    nature:
+      ratio: "16:9"
+      titleSlideClass: ["right", "middle", "my-title"]
+      highlightStyle: githubp
+      highlightLines: true
+      countIncrementalSlides: false
+      beforeInit: "libs/macros.js"
+  revealjs::revealjs_presentation:
+    self_contained: false
+    reveal_plugins: ["notes", "search"]
+---
+class: top, left
+
+```{r setup, include=FALSE}
+
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo = F,
+                      warning = F,
+                      message = F)
+#Plotting and data libraries
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(here)
+library(kableExtra)
+library(ggrepel)
+library(stringr)
+library(patchwork)
+library(grid)
+library(plotly)
+library(vegan)
+library(rpart)
+library(colorRamps)
+library(ecodata)
+
+#GIS libraries
+library(sf)
+library(rgdal)
+#library(raster)
+library(rnaturalearth)
+
+data.dir <- here::here("data")
+
+
+#Time series constants
+shade.alpha <- 0.3
+shade.fill <- "lightgrey"
+lwd <- 1
+pcex <- 2
+trend.alpha <- 0.5
+trend.size <- 2
+hline.size <- 1
+hline.alpha <- 0.35
+hline.lty <- "dashed"
+label.size <- 5
+hjust.label <- 1.5
+letter_size <- 4
+feeding.guilds <- c("Apex Predator","Piscivore","Planktivore","Benthivore","Benthos")
+x.shade.min <- 2009
+x.shade.max <- 2019
+map.lwd <- 0.4
+#Function for custom ggplot facet labels
+label <- function(variable,value){
+  return(facet_names[value])
+}
+
+#facet names for titles
+facet_names <- list("Apex predators" = expression("Apex predators"),
+                    "Piscivores" = expression("Piscivores"),
+                    "Planktivores" = expression("Planktivores"),
+                    "Benthivores" = expression("Benthivores"),
+                    "Benthos" = expression("Benthos"))
+#CRS
+crs <- "+proj=longlat +lat_1=35 +lat_2=45 +lat_0=40 +lon_0=-77 +x_0=0 +y_0=0 +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0"
+
+#Coastline shapefile
+coast <- ne_countries(scale = 10,
+                          continent = "North America",
+                          returnclass = "sf") %>%
+             sf::st_transform(crs = crs)
+
+#State polygons
+ne_states <- ne_states(country = "united states of america",
+                                      returnclass = "sf") %>%
+  sf::st_transform(crs = crs)
+
+#high-res polygon of Maine
+#new_england <- read_sf(gis.dir,"new_england")
+
+#EPU shapefile
+epu_sf <- ecodata::epu_sf %>% 
+  filter(EPU %in% c("MAB","GB","GOM"))
+
+#Region identifiers
+epu <- "Mid-Atlantic Bight"
+epu_abbr <- "MAB"
+region <- "Mid-Atlantic"
+region_abbr <- "MA" #Some commercial data organized by "MA" or "NE" regions, not by EPU 
+
+
+```
+
+## Risk assessent indicators and ranking criteria: Commercial revenue 
+
+This element is applied at the ecosystem level. Revenue serves as a proxy for commercial profits.
+
+.table[
+.pull-left[
+
+```{r riskcomval, echo=FALSE, message=FALSE, warnings=FALSE, results='asis'}
+tabl <- "
+| Risk Level         | Definition                                                          |  
+|:-------------------|:--------------------------------------------------------------------|
+| Low  | No trend and low variability in revenue |
+| Low-Moderate | Increasing or high variability in revenue |
+| Moderate-High | Significant long term revenue decrease |
+| High | Significant recent decrease in revenue |
+"
+cat(tabl) # output the table in a format good for HTML/PDF/docx conversion
+```
+]
+]
+.pull-right[
+```{r total-rev, fig.width = 6, fig.asp = 0.45, fig.retina=3, fig.cap = "Total revenue for the region (black) and revenue from MAFMC managed species (red)."}
+#Filtering and aggregation step
+rev_agg <- ecodata::comdat %>% 
+  filter(str_detect(Var, "Revenue"),
+         !str_detect(Var, "prop|Other|NEFMC"), #Remove proportions, "Other" category species, NEFMC managed species in MAB
+         EPU == epu_abbr,
+         Time >= 1986) %>% 
+  mutate(Status = ifelse(str_detect(Var, "Revenue weight"), 
+                         "Managed","Total")) %>% #Create groups for aggregation
+  group_by(Status, Time) %>% 
+  dplyr::summarise(Total = sum(Value)) %>% 
+  group_by(Status) %>% 
+  mutate(hline = mean(Total))
+
+series.col <- c("indianred","black")
+
+#Plotting
+ggplot(data = rev_agg) +
+  
+  #Highlight last ten years
+  annotate("rect", fill = shade.fill, alpha = shade.alpha,
+      xmin = x.shade.min , xmax = x.shade.max,
+      ymin = -Inf, ymax = Inf)+  
+  
+  #lines
+  geom_gls(aes(x = Time, y = Total,
+               group = Status),
+             alpha = trend.alpha, size = trend.size) +
+  geom_line(aes(x = Time, y = Total, color = Status), size = lwd) +
+  geom_point(aes(x = Time, y = Total, color = Status), size = pcex) +
+
+  #axes
+  scale_y_continuous(labels = function(l){trans = l / 1000000})+
+  scale_x_continuous(breaks = seq(1985, 2015, by = 5), expand = c(0.01, 0.01)) +
+      scale_color_manual(values = series.col, aesthetics = "color")+
+  guides(color = FALSE) +
+  ggtitle("Total Revenue") +
+  ylab(expression("Revenue (10"^6*"USD)")) +
+  geom_hline(aes(yintercept = hline,
+               color = Status),
+           size = hline.size,
+           alpha = hline.alpha,
+           linetype = hline.lty) +
+  theme_ts()
+```
+
+]
+
+Ranked moderate-high risk: significant long term decrease in Mid-Atlantic managed species revenue (red points)
+
+*All ecosystem level risk element rankings*
+```{r ecotable}
+#tab.cap="Ecosystem level risk analysis results; l=low risk (green), lm= low-moderate risk (yellow), mh=moderate to high risk (orange), h=high risk (red)\\label{sptable}",
+
+risk.eco<-data.frame(
+  System = c("Mid-Atlantic"),
+  EcoProd = c("lm"),
+  #EcoDiv = c("lm"),
+  CommRev = c("mh"),
+  RecVal = c("h"),
+  FishRes1 = c("l"),
+  FishRes4 = c("mh"),
+  #CommJobs = c("mh"),
+  #RecJobs = c("l"),
+  FleetDiv = c("l"),
+  Social = c("lm"),
+  ComFood = c("h"),
+  RecFood = c("mh")
+)
+
+#convert to longer text for consistency and display in html table
+risk.eco <- risk.eco %>%
+     mutate_at(vars(-System), function(x){
+       recode(x,'l'="lowest",'lm'="lowmod",'mh'="modhigh",'h'="highest")}) %>%
+     as.data.frame()
+
+#make table
+risk.eco %>%
+  mutate_at(vars(-System), function(x){ 
+    cell_spec(x, format="html", color = factor(x, c("na", "lowest", "lowmod", "modhigh", "highest"),c("black", "black", "black", "black", "white")), align = "c", background =factor(x, c("na", "lowest", "lowmod", "modhigh", "highest"),c("white", "lightgreen", "yellow", "orange", "red")), background_as_tile=F)}) %>%
+  kable(format = "html", escape = F, table.attr='class="risktable"') %>%
+  kable_styling(font_size = 14) 
+
+```
